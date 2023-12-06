@@ -1,0 +1,12 @@
+body{
+    margin:  0 auto;
+}
+
+.link_style{
+    color: white !important;
+    text-decoration: none !important;
+}
+
+.link_style:active{
+    text-decoration: none !important;
+}
