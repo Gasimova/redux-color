@@ -1,5 +1,6 @@
 body{
     margin:  0 auto;
+    padding: 0px 40px;
 }
 
 .link_style{
@@ -9,4 +10,69 @@ body{
 
 .link_style:active{
     text-decoration: none !important;
+}
+
+.colorForm{
+    display: flex;
+    flex-direction: column !important;
+    width: 50%;
+}
+
+.colorForm label{
+    max-width: 100%;
+    color: gray;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.colorForm input{
+    max-width: 100%;
+}
+
+.colorInput{
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #c3b6b6;
+}
+
+.btnForm{
+    padding: 20px;
+    border-radius: 10px;
+    border: none;
+    background-color: #0d9f7e;
+    color: white;
+    margin-top: 40px;
+    cursor: pointer;
+}
+
+.colorPicker{
+    width: 100% !important;
+}
+
+.color{
+    color: white;
+    width: 187px !important;
+    /* display: inline-block !important; */
+    height: 130px;
+    margin: 2px 2px;
+
+}
+
+.colorDiv{
+    display: flex;
+    flex-wrap: wrap;
+    width: 59%;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    height: 266px;
+}
+
+.colorBody{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 50px;
+}
+
+.delete{
+    cursor: pointer;
 }
