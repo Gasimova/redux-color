@@ -94,3 +94,7 @@ body{
     padding: 2px;
     font-size: 11px;
 }
+
+.disabledBtn{
+    opacity: 0.3;
+}

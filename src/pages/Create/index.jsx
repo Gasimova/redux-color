@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addColorBox, deleteColorBox } from '../../store/colors/colorSlice';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../../components/Header';
+import { Notification } from '../../components/Nofification';
 
 let initialValue = {
   name: '',
@@ -21,7 +22,7 @@ export const Create = () => {
   const [data, setData] = useState([])
   const [groupName, setGroupName] = useState()
   const navigate = useNavigate()
-
+  const [show, setShow] = useState({ open: false, alertText: '' })
 
   const handleChangeComplete = (cl) => {
     setColor({ ...color, code: cl.hex })
@@ -34,7 +35,10 @@ export const Create = () => {
       setData((prevData) => [...prevData, color])
       setColor(initialValue)
     }else{
-       console.log('data coxdu');
+      setShow({ open: true, alertText: `Color must be 6` })
+      setTimeout(() => {
+          setShow({ open: false })
+      }, 1000);
     }
   }
   const removeColor = (index) => {
@@ -72,7 +76,7 @@ export const Create = () => {
             <label htmlFor='code'>Color code </label>
             <SwatchesPicker onChangeComplete={handleChangeComplete} className='colorPicker' />
             <input type='text' id='code' name='code' placeholder='Color code' className='colorInput' value={color.code} />
-            <button className='btnForm' type='button'  onClick={handleColorSubmit} >Add Color</button>
+            <button className='btnForm' type='button' onClick={handleColorSubmit} >Add Color</button>
           </div>
         </Grid>
         <Grid item md={6}>
@@ -95,10 +99,12 @@ export const Create = () => {
           <form className='colorForm' >
             <label htmlFor='groupName'>Group Name</label>
             <input type='text' id='groupName' name='groupName' value={groupName} onChange={handleGroupName} placeholder='Group Name' className='colorInput' />
-            <button className='btnForm' onClick={handleSubmit} disabled={disabledSave}>Save</button>
+            <button className={disabledSave ? 'btnForm disabledBtn' : 'btnForm'} onClick={handleSubmit} disabled={disabledSave}>Save</button>
           </form>
         </Grid>
       </Grid>
+
+      <Notification show={show} />
     </>
   )
 }
