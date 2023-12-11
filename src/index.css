@@ -1,6 +1,6 @@
 body{
     margin:  0 auto;
-    padding: 0px 40px;
+    /* padding: 0px 40px; */
 }
 
 .link_style{
@@ -75,4 +75,22 @@ body{
 
 .delete{
     cursor: pointer;
+}
+
+.homeColorBox{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 100px;
+}
+
+.cardHeader{
+    display: flex;
+    justify-content: space-between;
+}
+
+.text{
+    color: white;
+    padding: 2px;
+    font-size: 11px;
 }

@@ -3,6 +3,10 @@ import { useFormik } from 'formik'
 import React, { useState } from 'react'
 import { SketchPicker, SwatchesPicker } from 'react-color'
 import { DeleteForever } from '@mui/icons-material';
+import { useDispatch, useSelector } from 'react-redux';
+import { addColorBox, deleteColorBox } from '../../store/colors/colorSlice';
+import { useNavigate } from 'react-router-dom';
+import { Header } from '../../components/Header';
 
 let initialValue = {
   name: '',
@@ -11,20 +15,13 @@ let initialValue = {
 
 export const Create = () => {
 
+  const state = useSelector((generalState)=> generalState.colorReducer);
+  const dispatch = useDispatch()
   const [color, setColor] = useState(initialValue)
   const [data, setData] = useState([])
+  const [groupName, setGroupName] = useState()
+  const navigate = useNavigate()
 
-  const formik = useFormik({
-    initialValues: {
-      title: "",
-      body: ""
-    },
-    // validate: validateInputs,
-    onSubmit: (values) => {
-      // addPostFetch(values)
-      formik.handleReset()
-    }
-  })
 
   const handleChangeComplete = (cl) => {
     setColor({ ...color, code: cl.hex })
@@ -32,7 +29,7 @@ export const Create = () => {
   const handleChangeName = (e) => {
     setColor({ ...color, name: e.target.value })
   }
-  const handleFormSubmit = (e) => {
+  const handleColorSubmit = (e) => {
     if (data.length < 6) {
       setData((prevData) => [...prevData, color])
       setColor(initialValue)
@@ -40,31 +37,45 @@ export const Create = () => {
        console.log('data coxdu');
     }
   }
-
   const removeColor = (index) => {
     setData(data.filter((item, i) => i !== index));
   };
 
+  const handleGroupName=(e)=>{
+    setGroupName(e.target.value)
+  }
+
+  const handleSubmit  =(e)=>{
+    e.preventDefault()
+    const colorGroup = {
+      name: groupName,
+      data,
+      id: Math.floor((Math.random()*100) + 1)
+    }
+    dispatch(addColorBox(colorGroup))
+    setGroupName()
+    navigate("/")
+
+  }
+
+  const disabledSave = !groupName || data.length <6
 
   return (
     <>
-      <h1 style={{ textAlign: 'center', marginBottom: 50 }}>Create New Color Box</h1>
+    <Header />
 
-      <Grid container justify="center" spacing={1}>
+      <Grid container justify="center" spacing={1} style={{paddingTop:50}}>
         <Grid item md={6}>
-          <CardHeader title="REGISTER FORM"></CardHeader>
           <div className='colorForm'>
             <label htmlFor='name'>Color name </label>
             <input onChange={handleChangeName} type='text' value={color.name} name='name' id='name' placeholder='Color name' className='colorInput' />
             <label htmlFor='code'>Color code </label>
             <SwatchesPicker onChangeComplete={handleChangeComplete} className='colorPicker' />
             <input type='text' id='code' name='code' placeholder='Color code' className='colorInput' value={color.code} />
-            <button className='btnForm' type='button'  onClick={handleFormSubmit} >Add Color</button>
+            <button className='btnForm' type='button'  onClick={handleColorSubmit} >Add Color</button>
           </div>
         </Grid>
         <Grid item md={6}>
-          <CardHeader title="REGISTER FORM"></CardHeader>
-
           <div className='colorDiv'>
             {
               data?.map((item, i) => {
@@ -81,10 +92,10 @@ export const Create = () => {
             }
           </div>
 
-          <form onSubmit={formik.handleSubmit} className='colorForm'>
+          <form className='colorForm' >
             <label htmlFor='groupName'>Group Name</label>
-            <input type='text' id='groupName' name='groupName' placeholder='Group Name' className='colorInput' />
-            <button className='btnForm' type='submit'>Save</button>
+            <input type='text' id='groupName' name='groupName' value={groupName} onChange={handleGroupName} placeholder='Group Name' className='colorInput' />
+            <button className='btnForm' onClick={handleSubmit} disabled={disabledSave}>Save</button>
           </form>
         </Grid>
       </Grid>
